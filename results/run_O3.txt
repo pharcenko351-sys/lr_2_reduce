@@ -1,0 +1,75 @@
+hardware threads: 8
+input: reading sequences from data/
+
+##### Tasks 1-2. std::reduce, library versions #####
+time = median of 15 runs in ms, sequence already in memory
+
+-- 10000 numbers (reading the file took 0.683 ms)
+| op       | no_policy |       seq |     unseq |       par | par_unseq |           value | equal
+| add      |     0.002 |     0.002 |     0.002 |     0.014 |     0.014 |       501757954 | ok
+| mul_mod  |     0.022 |     0.022 |     0.015 |     0.018 |     0.019 |       807367749 | ok
+
+-- 100000 numbers (reading the file took 5.297 ms)
+| op       | no_policy |       seq |     unseq |       par | par_unseq |           value | equal
+| add      |     0.015 |     0.014 |     0.015 |     0.017 |     0.013 |      4991290781 | ok
+| mul_mod  |     0.191 |     0.169 |     0.116 |     0.041 |     0.037 |        71475932 | ok
+
+-- 1000000 numbers (reading the file took 36.918 ms)
+| op       | no_policy |       seq |     unseq |       par | par_unseq |           value | equal
+| add      |     0.084 |     0.084 |     0.085 |     0.033 |     0.028 |     49997396672 | ok
+| mul_mod  |     1.072 |     1.037 |     0.706 |     0.208 |     0.160 |       832566562 | ok
+
+-- 10000000 numbers (reading the file took 282.996 ms)
+| op       | no_policy |       seq |     unseq |       par | par_unseq |           value | equal
+| add      |     0.801 |     0.803 |     0.835 |     0.650 |     0.705 |    500120889559 | ok
+| mul_mod  |    10.372 |    10.356 |     7.110 |     1.957 |     1.473 |       944492074 | ok
+
+##### Task 3. SplitReducer: K threads x sequential std::reduce, partial values joined by std::reduce; 10000000 numbers #####
+
+[add] median of 15 runs
+|     K |         ms |    T1/TK |           value | equal
+|     1 |      0.858 |     1.00 |    500120889559 | ok
+|     2 |      0.712 |     1.21 |    500120889559 | ok
+|     3 |      0.719 |     1.19 |    500120889559 | ok
+|     4 |      0.730 |     1.18 |    500120889559 | ok
+|     5 |      0.819 |     1.05 |    500120889559 | ok
+|     6 |      0.789 |     1.09 |    500120889559 | ok
+|     7 |      0.779 |     1.10 |    500120889559 | ok
+|     8 |      0.773 |     1.11 |    500120889559 | ok
+|    10 |      0.795 |     1.08 |    500120889559 | ok
+|    12 |      0.801 |     1.07 |    500120889559 | ok
+|    16 |      0.819 |     1.05 |    500120889559 | ok
+|    24 |      0.829 |     1.03 |    500120889559 | ok
+|    32 |      0.848 |     1.01 |    500120889559 | ok
+|    64 |      0.928 |     0.92 |    500120889559 | ok
+|   128 |      1.350 |     0.64 |    500120889559 | ok
+|   256 |      2.366 |     0.36 |    500120889559 | ok
+|   512 |      5.504 |     0.16 |    500120889559 | ok
+|  1024 |     12.076 |     0.07 |    500120889559 | ok
+fastest: K = 2, 0.712 ms
+hardware threads: 8, K / threads = 0.25
+first K within 5% of the fastest: 2, K / threads = 0.25
+
+[mul_mod] median of 15 runs
+|     K |         ms |    T1/TK |           value | equal
+|     1 |     10.451 |     1.00 |       944492074 | ok
+|     2 |      5.472 |     1.91 |       944492074 | ok
+|     3 |      3.786 |     2.76 |       944492074 | ok
+|     4 |      2.906 |     3.60 |       944492074 | ok
+|     5 |      3.402 |     3.07 |       944492074 | ok
+|     6 |      2.894 |     3.61 |       944492074 | ok
+|     7 |      2.526 |     4.14 |       944492074 | ok
+|     8 |      2.333 |     4.48 |       944492074 | ok
+|    10 |      2.310 |     4.52 |       944492074 | ok
+|    12 |      2.596 |     4.03 |       944492074 | ok
+|    16 |      2.227 |     4.69 |       944492074 | ok
+|    24 |      2.506 |     4.17 |       944492074 | ok
+|    32 |      2.472 |     4.23 |       944492074 | ok
+|    64 |      2.420 |     4.32 |       944492074 | ok
+|   128 |      2.778 |     3.76 |       944492074 | ok
+|   256 |      3.774 |     2.77 |       944492074 | ok
+|   512 |      5.700 |     1.83 |       944492074 | ok
+|  1024 |     11.496 |     0.91 |       944492074 | ok
+fastest: K = 16, 2.227 ms
+hardware threads: 8, K / threads = 2.00
+first K within 5% of the fastest: 8, K / threads = 1.00
