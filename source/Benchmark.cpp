@@ -13,7 +13,6 @@ const std::vector<int> kPieceCounts = {1,  2,  3,  4,  5,   6,   7,   8,   10,
 
 constexpr double kAcceptableSlowdown = 1.05;
 
-// я а тебе люблю дуже зай)
 
 static void reportBestK(const std::vector<double>& times) {
     const auto best = std::min_element(times.begin(), times.end());
