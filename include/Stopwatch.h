@@ -12,7 +12,6 @@ double elapsedMs(Func func) {
     const auto end = std::chrono::steady_clock::now();
     return std::chrono::duration<double, std::milli>(end - start).count();
 }
-    // один запуск
 
 template <typename Func>
 double medianMs(Func func, int runs) {
